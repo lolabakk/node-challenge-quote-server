@@ -17,7 +17,35 @@ app.get("/", function (request, response) {
 });
 
 //START OF YOUR CODE...
+//Quotes
+app.get("/quotes", function (request, response) {
+  const allQuotes = quotes.map((item) => {
+    return item.quote;
+  });
+  response.send(allQuotes);
+});
+// // Random
+app.get("/quotes/random", function (request, response) {
+  response.send(pickFromArray(quotes));
+});
 
+//Search
+// - `/quotes/search?term=life`
+// - `/quotes/search?term=success`
+// - `/quotes/search?term=miss`
+
+
+//search
+app.get("/quotes/search", function(request, response) {
+  const searchTerms = request.query.term; 
+  const arr = [];
+  for(let i = 0; i< quotes.length; i++) {
+      if(quotes[i].quote.toLowerCase().includes(searchTerms.toLowerCase()) || quotes[i].author.toLowerCase().includes(searchTerms.toLowerCase()) ) { 
+      arr.push(quotes[i])
+       }
+    }
+  response.send(arr);
+}); 
 //...END OF YOUR CODE
 
 //You can use this function to pick one element at random from a given array
